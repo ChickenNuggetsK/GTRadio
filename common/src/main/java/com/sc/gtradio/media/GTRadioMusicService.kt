@@ -361,7 +361,7 @@ import java.util.ArrayList
         val subDirs = (dir?.listFiles() ?: emptyArray()).filter { x -> x.isDirectory }
         for (subDir in subDirs) {
             val group = StationGroup(subDir, applicationContext)
-            if (group.generation in 1..3) {
+            if (group.generation in 1..3 || group.generation == 5) {
                 //Valid group.
                 list.add(group)
             }
@@ -453,6 +453,12 @@ import java.util.ArrayList
                 val newsDoc = folderContents.find { x -> x.name?.uppercase()?.contains("NEWS") == true } ?: return null
                 val weatherDoc = folderContents.find { x -> x.name?.uppercase()?.contains("WEATHER") == true } ?: return null
                 return Gen3RadioStation(group.mediaItem.mediaId!!, stationMedia.mediaId!!, stationMedia, stationDoc, advertsDoc, newsDoc, weatherDoc, radioPlayer, applicationContext, adsEnabled, weatherChatterEnabled, newsReportsEnabled)
+            }
+            5 -> {
+                val advertsDoc = folderContents.find { x -> x.name?.uppercase()?.contains("ADVERTS") == true } ?: return null
+                val newsDoc = folderContents.find { x -> x.name?.uppercase()?.contains("NEWS") == true } ?: return null
+                val weatherDoc = folderContents.find { x -> x.name?.uppercase()?.contains("WEATHER") == true } ?: return null
+                return Gen5RadioStation(group.mediaItem.mediaId!!, stationMedia.mediaId!!, stationMedia, stationDoc, advertsDoc, newsDoc, weatherDoc, radioPlayer, applicationContext, adsEnabled, weatherChatterEnabled, newsReportsEnabled)
             }
             else -> {
                 return null
